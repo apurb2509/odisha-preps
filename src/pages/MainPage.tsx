@@ -1,12 +1,14 @@
 
 import React, { useEffect } from 'react';
 import Header from '@/components/Header';
-import Landing from '@/components/Landing';
 import CourseGrid from '@/components/CourseGrid';
 import FAQSection from '@/components/FAQSection';
 import Footer from '@/components/Footer';
+import FeaturedCourses from '@/components/FeaturedCourses';
+import DownloadApp from '@/components/DownloadApp';
+import HeroSection from '@/components/HeroSection';
 
-const Index = () => {
+const MainPage = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -32,12 +34,21 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="bg-dark-texture min-h-screen">
+    <div className="bg-black">
+      <div className="absolute inset-0 bg-fixed geometric-mesh opacity-30 z-0" />
       <Header />
-      <div className="pt-16"> {/* Add padding to account for fixed header height */}
-        <Landing />
+      <div className="pt-16 relative z-10"> {/* Add padding to account for fixed header height */}
+        <div className="animate-on-scroll opacity-0">
+          <HeroSection />
+        </div>
         <div className="animate-on-scroll opacity-0">
           <CourseGrid />
+        </div>
+        <div className="animate-on-scroll opacity-0">
+          <FeaturedCourses />
+        </div>
+        <div className="animate-on-scroll opacity-0">
+          <DownloadApp />
         </div>
         <div className="animate-on-scroll opacity-0">
           <FAQSection />
@@ -50,4 +61,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default MainPage;
