@@ -87,6 +87,11 @@ export default {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
 					'100%': { transform: 'scale(1)', opacity: '1' }
 				},
+				'scale': {
+					'0%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.1)' },
+					'100%': { transform: 'scale(1)' }
+				},
 				'glow-pulse': {
 					'0%': { boxShadow: '0 0 5px 0 rgba(168, 85, 247, 0.4)' },
 					'50%': { boxShadow: '0 0 20px 0 rgba(168, 85, 247, 0.7)' },
