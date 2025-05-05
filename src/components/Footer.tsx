@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FilePdf, Video, Book, Send, Youtube, Facebook, Instagram } from 'lucide-react';
+import { FileText, Video, Book, Send, Youtube, Facebook, Instagram } from 'lucide-react';
 
 interface ResourceBoxProps {
   title: string;
@@ -19,7 +19,7 @@ const ResourceBox = ({ title, icon }: ResourceBoxProps) => {
 const Footer = () => {
   const resources = [
     { title: "Daily Practice", icon: <Book className="h-6 w-6" /> },
-    { title: "PDFs", icon: <FilePdf className="h-6 w-6" /> },
+    { title: "PDFs", icon: <FileText className="h-6 w-6" /> },
     { title: "Video Lessons", icon: <Video className="h-6 w-6" /> },
     { title: "E-books", icon: <Book className="h-6 w-6" /> },
     { title: "Telegram Channel", icon: <Send className="h-6 w-6" /> },
