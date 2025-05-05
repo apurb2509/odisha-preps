@@ -1,76 +1,220 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const Cube = () => {
-  return (
-    <div className="perspective-1000 mx-auto mb-12">
-      <div className="cube animate-rotate-cube">
-        <div className="cube-face front">OP</div>
-        <div className="cube-face back">Success</div>
-        <div className="cube-face left">Learn</div>
-        <div className="cube-face right">Prepare</div>
-        <div className="cube-face top">Study</div>
-        <div className="cube-face bottom">Excel</div>
-      </div>
+const Cube = () => (
+  <div className="perspective-1000 mx-auto mb-12">
+    <div className="cube animate-rotate-cube">
+      <div className="cube-face front">OP</div>
+      <div className="cube-face back">Success</div>
+      <div className="cube-face left">Learn</div>
+      <div className="cube-face right">Prepare</div>
+      <div className="cube-face top">Study</div>
+      <div className="cube-face bottom">Excel</div>
     </div>
-  );
-};
+  </div>
+);
 
 const LandingPage = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (titleRef.current) {
-      titleRef.current.classList.add('animate-fade-in');
+    if (taglineRef.current) {
+      taglineRef.current.classList.add('animate-fade-in-delayed');
     }
-    
-    const taglineTimer = setTimeout(() => {
-      if (taglineRef.current) {
-        taglineRef.current.classList.add('animate-fade-in');
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .animated-title span {
+        opacity: 0;
+        display: inline-block;
+        animation: fadeInLetter 0.7s forwards;
       }
-    }, 500);
+      .animated-title span:nth-child(n) {
+        animation-delay: calc(0.1s * var(--i));
+      }
+      @keyframes fadeInLetter {
+        0% { opacity: 0; transform: translateY(-10px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in-delayed {
+        opacity: 0;
+        animation: fadeIn 1.5s 1.5s forwards;
+      }
+      @keyframes fadeIn {
+        to { opacity: 1; }
+      }
+      .pulse-button {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 0, 255, 0.3); }
+        50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 255, 0.6); }
+      }
+      canvas.neural-canvas {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background: black;
+        opacity: 0.3;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    // Adjust the node radius to make neuron heads smaller
+    const NODE_RADIUS = 1.5;
+
+    const nodes = Array.from({ length: 300 }).map(() => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: 0,
+      vy: 0,
+      radius: NODE_RADIUS, // Smaller size for the neuron head
+      originalX: 0,
+      originalY: 0,
+    }));
+
+    nodes.forEach(n => {
+      n.originalX = n.x;
+      n.originalY = n.y;
+    });
+
+    let mouse = { x: -9999, y: -9999 };
+    let lastMoveTime = Date.now();
+    let mouseIsMoving = false;
+
+    const MOUSE_RADIUS = 100;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      lastMoveTime = Date.now();
+      mouseIsMoving = true;
+    };
+
+    const checkIdle = () => {
+      if (Date.now() - lastMoveTime > 1500) {
+        mouseIsMoving = false;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+
+    const draw = () => {
+      checkIdle();
+      ctx.clearRect(0, 0, width, height);
+
+      // Increase the threshold for drawing connections (dendrites length)
+      const CONNECTION_THRESHOLD = 150;
+
+      // Draw connections (increase the distance for longer dendrites)
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CONNECTION_THRESHOLD) { // Increased threshold for longer dendrites
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(255,255,255,${1 - dist / CONNECTION_THRESHOLD})`;
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw nodes (neuron heads)
+      for (const node of nodes) {
+        ctx.beginPath();
+        ctx.fillStyle = 'white';
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'white';
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      updateNodes();
+      requestAnimationFrame(draw);
+    };
+
+    const updateNodes = () => {
+      for (const node of nodes) {
+        const dx = node.x - mouse.x;
+        const dy = node.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (mouseIsMoving && dist < MOUSE_RADIUS) {
+          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+          const angle = Math.atan2(dy, dx);
+          node.vx += Math.cos(angle) * force * 0.6;
+          node.vy += Math.sin(angle) * force * 0.6;
+        } else {
+          // Return to origin
+          node.vx += (node.originalX - node.x) * 0.005;
+          node.vy += (node.originalY - node.y) * 0.005;
+        }
+
+        // Apply velocity
+        node.x += node.vx;
+        node.y += node.vy;
+
+        // Apply friction
+        node.vx *= 0.9;
+        node.vy *= 0.9;
+      }
+    };
+
+    draw();
 
     return () => {
-      clearTimeout(taglineTimer);
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.head.removeChild(style);
     };
   }, []);
 
+  const renderAnimatedTitle = (text: string) => (
+    <h1 ref={titleRef} className="animated-title text-6xl md:text-7xl font-bold mb-4 text-white">
+      {text.split('').map((char, idx) => (
+        <span key={idx} style={{ ['--i' as any]: idx + 1 }}>
+          {char === ' ' ? '\u00A0' : char}
+        </span>
+      ))}
+    </h1>
+  );
+
   return (
     <div className="bg-black min-h-screen overflow-hidden relative">
-      {/* Purple gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-neon-purple/10 z-0" />
-      
-      {/* Purple neon effect in top right corner */}
-      <div className="absolute top-0 right-0 w-1/2 h-1/2 pointer-events-none">
-        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-purple-600/30 via-neon-purple/20 to-transparent blur-3xl"></div>
-      </div>
-      
-      <div className="geometric-mesh absolute inset-0 z-0 opacity-30" />
-      
+      <canvas ref={canvasRef} className="neural-canvas" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-purple-800/10 z-0" />
       <div className="flex flex-col items-center justify-center h-screen px-4 z-10 relative">
         <Cube />
-        
-        <h1 
-          ref={titleRef} 
-          className="text-6xl md:text-7xl font-bold mb-4 opacity-0 animate-neon-text text-glow"
-        >
-          Odisha Preps
-        </h1>
-        
-        <p 
-          ref={taglineRef} 
-          className="text-xl md:text-2xl text-light-gray mb-10 opacity-0"
-        >
+        {renderAnimatedTitle('Odisha Preps')}
+        <p ref={taglineRef} className="text-xl md:text-2xl text-light-gray mb-10">
           Learn. Prepare. Succeed with Odisha Preps.
         </p>
-        
-        <Button 
-          className="neon-button group text-lg py-6 px-8 transition-all duration-300 shadow-neon-glow hover:scale-105 bg-gradient-to-r from-purple-600/50 to-pink-600/50"
+        <Button
+          className="pulse-button neon-button group text-lg py-6 px-8 transition-all duration-300 shadow-neon-glow hover:scale-105 bg-gradient-to-r from-purple-600/50 to-pink-600/50"
           onClick={() => navigate('/main')}
         >
           Explore
