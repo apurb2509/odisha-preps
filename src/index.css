@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,69 +34,120 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-dark text-white font-sans;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23222' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    min-height: 100vh;
+    overflow-x: hidden;
   }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #101010;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #a855f7;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9333ea;
+  }
+}
+
+@layer components {
+  .neon-card {
+    @apply relative bg-dark-deeper border border-neon-purple/30 rounded-lg p-6 transition-all duration-300 overflow-hidden;
+  }
+
+  .neon-card:before {
+    content: '';
+    @apply absolute inset-0 bg-neon-gradient opacity-0 transition-opacity duration-300;
+  }
+
+  .neon-card:hover:before {
+    @apply opacity-30;
+  }
+
+  .neon-card:hover {
+    @apply shadow-neon-glow -translate-y-1;
+  }
+
+  .neon-button {
+    @apply px-6 py-2 rounded-full bg-neon-purple/20 border border-neon-purple text-white font-medium transition-all duration-300 relative overflow-hidden shadow-[0_0_10px_rgba(168,85,247,0.5)];
+  }
+
+  .neon-button:hover {
+    @apply shadow-neon-glow scale-105;
+  }
+
+  .nav-link {
+    @apply relative text-white hover:text-white/90 transition-colors duration-300;
+  }
+
+  .nav-link:after {
+    content: '';
+    @apply absolute left-0 bottom-[-5px] w-0 h-[2px] bg-neon-purple transition-all duration-300;
+  }
+
+  .nav-link:hover:after {
+    @apply w-full;
+  }
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.7), 0 0 20px rgba(168, 85, 247, 0.4);
+}
+
+.cube {
+  transform-style: preserve-3d;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  transform: rotateX(0) rotateY(0);
+}
+
+.cube-face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  opacity: 0.7;
+}
+
+.front {
+  transform: translateZ(50px);
+}
+
+.back {
+  transform: translateZ(-50px) rotateY(180deg);
+}
+
+.left {
+  transform: translateX(-50px) rotateY(-90deg);
+}
+
+.right {
+  transform: translateX(50px) rotateY(90deg);
+}
+
+.top {
+  transform: translateY(-50px) rotateX(90deg);
+}
+
+.bottom {
+  transform: translateY(50px) rotateX(-90deg);
 }
