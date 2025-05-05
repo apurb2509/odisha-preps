@@ -22,7 +22,6 @@ const Cube = () => {
 const LandingPage = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLParagraphElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,21 +35,24 @@ const LandingPage = () => {
       }
     }, 500);
 
-    const subtitleTimer = setTimeout(() => {
-      if (subtitleRef.current) {
-        subtitleRef.current.classList.add('animate-fade-in');
-      }
-    }, 1000);
-
     return () => {
       clearTimeout(taglineTimer);
-      clearTimeout(subtitleTimer);
     };
   }, []);
 
   return (
     <div className="bg-black min-h-screen overflow-hidden relative">
-      <div className="absolute inset-0 bg-purple-glow bg-fixed opacity-20 z-0" />
+      {/* Purple gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-neon-purple/10 z-0" />
+      
+      {/* Purple neon effect in top right corner */}
+      <div className="absolute top-0 right-0 w-full md:w-2/3 h-1/2 pointer-events-none">
+        <img 
+          src="/lovable-uploads/435d26b1-3aaf-4e7c-9369-da57368edd26.png" 
+          alt="Neon Effect" 
+          className="absolute top-0 right-0 w-full opacity-40"
+        />
+      </div>
       
       <div className="geometric-mesh absolute inset-0 z-0 opacity-30" />
       
@@ -66,20 +68,13 @@ const LandingPage = () => {
         
         <p 
           ref={taglineRef} 
-          className="text-xl md:text-2xl text-light-gray mb-6 opacity-0"
+          className="text-xl md:text-2xl text-light-gray mb-10 opacity-0"
         >
           Learn. Prepare. Succeed with Odisha Preps.
         </p>
-
-        <p
-          ref={subtitleRef}
-          className="text-lg md:text-xl text-neon-purple mb-10 opacity-0 max-w-xl text-center"
-        >
-          Your ultimate companion for OSSC, OPSC, and other Odisha competitive exams
-        </p>
         
         <Button 
-          className="neon-button group text-lg py-6 px-8 transition-all duration-300 shadow-neon-glow hover:scale-105"
+          className="neon-button group text-lg py-6 px-8 transition-all duration-300 shadow-neon-glow hover:scale-105 bg-gradient-to-r from-purple-600/50 to-pink-600/50"
           onClick={() => navigate('/main')}
         >
           Explore

@@ -6,13 +6,17 @@ import { ArrowRight } from 'lucide-react';
 const HeroSection = () => {
   return (
     <section className="py-20 px-4 relative overflow-hidden">
-      {/* Design element in the top right corner */}
-      <div className="absolute top-0 right-0 w-64 h-64 md:w-80 md:h-80 opacity-70">
-        <div className="w-full h-full rounded-full bg-neon-purple/10 animate-pulse"></div>
-        <div className="absolute top-1/4 right-1/4 w-3/4 h-3/4 rounded-full bg-neon-purple/15 animate-pulse" style={{animationDelay: '0.5s'}}></div>
-        <div className="absolute top-1/3 right-1/3 w-1/2 h-1/2 rounded-full bg-neon-purple/20 animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-purple-glow opacity-50"></div>
+      {/* Purple neon effect in top right corner */}
+      <div className="absolute top-0 right-0 w-full h-1/2 pointer-events-none">
+        <img 
+          src="/lovable-uploads/435d26b1-3aaf-4e7c-9369-da57368edd26.png" 
+          alt="Neon Effect" 
+          className="absolute top-0 right-0 w-full md:w-2/3 lg:w-1/2 opacity-60"
+        />
       </div>
+
+      {/* Left to right gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-transparent to-neon-purple/20 pointer-events-none"></div>
 
       <div className="container mx-auto">
         <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto">

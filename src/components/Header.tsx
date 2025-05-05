@@ -6,7 +6,7 @@ import { User, UserPlus } from 'lucide-react';
 
 const Header = () => {
   return (
-    <header className="fixed top-0 left-0 right-0 bg-dark/90 backdrop-blur-md z-50 border-b border-neon-purple/20">
+    <header className="fixed top-0 left-0 right-0 bg-transparent backdrop-blur-md z-50">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center">
           <a href="#" className="flex items-center">

@@ -9,7 +9,7 @@ interface ResourceBoxProps {
 
 const ResourceBox = ({ title, icon }: ResourceBoxProps) => {
   return (
-    <div className="flex flex-col items-center p-4 border border-neon-purple/30 rounded-lg bg-dark/50 hover:shadow-neon-glow hover:-translate-y-1 transition-all duration-300">
+    <div className="flex flex-col items-center p-4 border border-neon-purple/30 rounded-lg bg-transparent backdrop-blur-md hover:shadow-neon-glow hover:-translate-y-1 transition-all duration-300">
       <div className="mb-2 text-neon-purple">{icon}</div>
       <h3 className="font-medium text-white">{title}</h3>
     </div>
@@ -34,7 +34,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="pt-16 pb-8 px-4 border-t border-neon-purple/20">
+    <footer className="pt-16 pb-8 px-4 border-t border-neon-purple/20 bg-transparent backdrop-blur-md">
       <div className="container mx-auto">
         <div className="mb-14">
           <h3 className="text-2xl font-bold mb-6 text-center text-glow">Free Resources</h3>
