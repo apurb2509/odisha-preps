@@ -33,7 +33,7 @@ const Header = () => {
             <Clock />
           </div>
           <div className="flex space-x-2">
-            <Button className="neon-button">
+            <Button className="neon-button" variant="ghost">
               <User className="mr-2 h-4 w-4" />
               Sign In
             </Button>

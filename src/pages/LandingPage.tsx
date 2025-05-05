@@ -46,12 +46,8 @@ const LandingPage = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-neon-purple/10 z-0" />
       
       {/* Purple neon effect in top right corner */}
-      <div className="absolute top-0 right-0 w-full md:w-2/3 h-1/2 pointer-events-none">
-        <img 
-          src="/lovable-uploads/435d26b1-3aaf-4e7c-9369-da57368edd26.png" 
-          alt="Neon Effect" 
-          className="absolute top-0 right-0 w-full opacity-40"
-        />
+      <div className="absolute top-0 right-0 w-1/2 h-1/2 pointer-events-none">
+        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-purple-600/30 via-neon-purple/20 to-transparent blur-3xl"></div>
       </div>
       
       <div className="geometric-mesh absolute inset-0 z-0 opacity-30" />

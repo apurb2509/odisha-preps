@@ -8,11 +8,7 @@ const HeroSection = () => {
     <section className="py-20 px-4 relative overflow-hidden">
       {/* Purple neon effect in top right corner */}
       <div className="absolute top-0 right-0 w-full h-1/2 pointer-events-none">
-        <img 
-          src="/lovable-uploads/435d26b1-3aaf-4e7c-9369-da57368edd26.png" 
-          alt="Neon Effect" 
-          className="absolute top-0 right-0 w-full md:w-2/3 lg:w-1/2 opacity-60"
-        />
+        <div className="absolute top-0 right-0 w-full md:w-2/3 lg:w-1/2 h-96 bg-gradient-to-br from-purple-900/30 via-neon-purple/20 to-transparent opacity-60 blur-2xl"></div>
       </div>
 
       {/* Left to right gradient overlay */}
@@ -28,9 +24,7 @@ const HeroSection = () => {
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white text-glow">
-            <span className="inline-block mr-2">Best</span>
-            <span className="text-neon-purple animate-neon-text inline-block mr-2">Companion</span>
-            <span className="inline-block">For Your Preparation</span>
+            Best Companion For Your Preparation
           </h1>
           
           <p className="text-lg md:text-xl text-light-gray mb-12 max-w-2xl bg-gradient-to-r from-purple-300/20 to-pink-300/20 p-4 rounded-lg backdrop-blur-sm">
