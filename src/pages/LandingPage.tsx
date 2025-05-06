@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Cube = () => (
-  <div className="perspective-1000 mx-auto mb-12">
+  <div className="perspective-1000 mx-auto pt-16 mb-6">
     <div className="cube animate-rotate-cube">
       <div className="cube-face front">OP</div>
       <div className="cube-face back">Success</div>
@@ -24,10 +24,10 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (taglineRef.current) {
-      taglineRef.current.classList.add('animate-fade-in-delayed');
+      taglineRef.current.classList.add("animate-fade-in-delayed");
     }
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.innerHTML = `
       .animated-title span {
         opacity: 0;
@@ -62,12 +62,20 @@ const LandingPage = () => {
         background: black;
         opacity: 0.3;
       }
+      .fade-in-image {
+        opacity: 0;
+        animation: fadeInImg 2s ease-in-out forwards;
+      }
+      @keyframes fadeInImg {
+        0% { opacity: 0; transform: scale(0.8); }
+        100% { opacity: 1; transform: scale(1); }
+      }
     `;
     document.head.appendChild(style);
 
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let width = window.innerWidth;
@@ -75,7 +83,6 @@ const LandingPage = () => {
     canvas.width = width;
     canvas.height = height;
 
-    // Adjust the node radius to make neuron heads smaller
     const NODE_RADIUS = 1.5;
 
     const nodes = Array.from({ length: 300 }).map(() => ({
@@ -83,12 +90,12 @@ const LandingPage = () => {
       y: Math.random() * height,
       vx: 0,
       vy: 0,
-      radius: NODE_RADIUS, // Smaller size for the neuron head
+      radius: NODE_RADIUS,
       originalX: 0,
       originalY: 0,
     }));
 
-    nodes.forEach(n => {
+    nodes.forEach((n) => {
       n.originalX = n.x;
       n.originalY = n.y;
     });
@@ -112,8 +119,8 @@ const LandingPage = () => {
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('resize', () => {
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("resize", () => {
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = width;
@@ -124,18 +131,18 @@ const LandingPage = () => {
       checkIdle();
       ctx.clearRect(0, 0, width, height);
 
-      // Increase the threshold for drawing connections (dendrites length)
       const CONNECTION_THRESHOLD = 150;
 
-      // Draw connections (increase the distance for longer dendrites)
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < CONNECTION_THRESHOLD) { // Increased threshold for longer dendrites
+          if (dist < CONNECTION_THRESHOLD) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(255,255,255,${1 - dist / CONNECTION_THRESHOLD})`;
+            ctx.strokeStyle = `rgba(255,255,255,${
+              1 - dist / CONNECTION_THRESHOLD
+            })`;
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
             ctx.stroke();
@@ -143,12 +150,11 @@ const LandingPage = () => {
         }
       }
 
-      // Draw nodes (neuron heads)
       for (const node of nodes) {
         ctx.beginPath();
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = "white";
         ctx.shadowBlur = 8;
-        ctx.shadowColor = 'white';
+        ctx.shadowColor = "white";
         ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
@@ -170,16 +176,13 @@ const LandingPage = () => {
           node.vx += Math.cos(angle) * force * 0.6;
           node.vy += Math.sin(angle) * force * 0.6;
         } else {
-          // Return to origin
           node.vx += (node.originalX - node.x) * 0.005;
           node.vy += (node.originalY - node.y) * 0.005;
         }
 
-        // Apply velocity
         node.x += node.vx;
         node.y += node.vy;
 
-        // Apply friction
         node.vx *= 0.9;
         node.vy *= 0.9;
       }
@@ -188,16 +191,19 @@ const LandingPage = () => {
     draw();
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
       document.head.removeChild(style);
     };
   }, []);
 
   const renderAnimatedTitle = (text: string) => (
-    <h1 ref={titleRef} className="animated-title text-6xl md:text-7xl font-bold mb-4 text-white">
-      {text.split('').map((char, idx) => (
-        <span key={idx} style={{ ['--i' as any]: idx + 1 }}>
-          {char === ' ' ? '\u00A0' : char}
+    <h1
+      ref={titleRef}
+      className="animated-title text-6xl md:text-7xl font-bold mb-2 text-white"
+    >
+      {text.split("").map((char, idx) => (
+        <span key={idx} style={{ ["--i" as any]: idx + 1 }}>
+          {char === " " ? "\u00A0" : char}
         </span>
       ))}
     </h1>
@@ -209,17 +215,39 @@ const LandingPage = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-purple-800/10 z-0" />
       <div className="flex flex-col items-center justify-center h-screen px-4 z-10 relative">
         <Cube />
-        {renderAnimatedTitle('Odisha Preps')}
-        <p ref={taglineRef} className="text-xl md:text-2xl text-light-gray mb-10">
+
+        {/* OP Logo + Glow with adjusted size */}
+        <div className="relative flex items-center justify-center w-[350px] h-[350px] mb-8 pt-14">
+          <img
+            src="src/icons/10 GLOW BY NINJA 3.0.png"
+            alt="Glow"
+            className="absolute fade-in-image w-[350px] h-[350px] object-contain z-0"
+          />
+          <img
+            src="src/icons/OP Circle.png"
+            alt="OP Logo"
+            className="fade-in-image relative w-[195px] h-[195px] object-contain z-10"
+          />
+        </div>
+
+        {renderAnimatedTitle("Odisha Preps")}
+
+        <p
+          ref={taglineRef}
+          className="text-xl md:text-2xl text-light-gray mb-8"
+        >
           Learn. Prepare. Succeed with Odisha Preps.
         </p>
-        <Button
-          className="pulse-button neon-button group text-lg py-6 px-8 transition-all duration-300 shadow-neon-glow hover:scale-105 bg-gradient-to-r from-purple-600/50 to-pink-600/50"
-          onClick={() => navigate('/main')}
-        >
-          Explore
-          <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-        </Button>
+
+        <div className="pb-12">
+          <Button
+            className="pulse-button neon-button group text-lg py-6 px-8 transition-all duration-300 shadow-neon-glow hover:scale-105 bg-gradient-to-r from-purple-600/50 to-pink-600/50"
+            onClick={() => navigate("/main")}
+          >
+            Explore
+            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </div>
       </div>
     </div>
   );

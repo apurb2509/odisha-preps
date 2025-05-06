@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Clock from './Clock';
 import { Button } from '@/components/ui/button';
@@ -10,9 +9,11 @@ const Header = () => {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center">
           <a href="#" className="flex items-center">
-            <div className="w-10 h-10 rounded-full bg-neon-purple/20 border border-neon-purple flex items-center justify-center animate-glow-pulse">
-              <span className="text-xl font-bold text-white">OP</span>
-            </div>
+            <img
+              src="/favicon.png"
+              alt="Odisha Preps Logo"
+              className="w-10 h-10 rounded-full border border-neon-purple animate-glow-pulse"
+            />
           </a>
         </div>
 
