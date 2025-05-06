@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const Cube = () => (
   <div className="perspective-1000 mx-auto pt-16 mb-6">
-    <div className="cube animate-rotate-cube" style={{ animationDuration: "4.5s" }}>
+    <div
+      className="cube animate-cube-in rotate-cube"
+      style={{ animationDuration: "14s" }}
+    >
       <div className="cube-face front">OP</div>
       <div className="cube-face back">Success</div>
       <div className="cube-face left">Learn</div>
@@ -24,7 +27,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (taglineRef.current) {
-      taglineRef.current.classList.add("animate-fade-in-delayed");
+      taglineRef.current.classList.add("animate-tagline-match-title");
     }
 
     const style = document.createElement("style");
@@ -32,29 +35,58 @@ const LandingPage = () => {
       .animated-title span {
         opacity: 0;
         display: inline-block;
-        animation: fadeInLetter 0.7s forwards;
+        animation: fadeInLetter 1s forwards;
       }
       .animated-title span:nth-child(n) {
-        animation-delay: calc(0.1s * var(--i));
+        animation-delay: calc(0.12s * var(--i));
       }
+
       @keyframes fadeInLetter {
         0% { opacity: 0; transform: translateY(-10px); }
         100% { opacity: 1; transform: translateY(0); }
       }
-      .animate-fade-in-delayed {
+
+      .animate-tagline-match-title {
         opacity: 0;
-        animation: fadeIn 4.5s forwards;
+        transform: translateY(10px);
+        animation: taglineFadeIn 4.8s ease-out forwards;
+        animation-delay: 0.2s;
       }
-      @keyframes fadeIn {
-        to { opacity: 1; }
+
+      @keyframes taglineFadeIn {
+        0% { opacity: 0; transform: translateY(10px); }
+        100% { opacity: 1; transform: translateY(0); }
       }
+
       .pulse-button {
-        animation: pulse 4.5s infinite;
+        animation: popInOut 1.8s infinite ease-in-out;
       }
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 0, 255, 0.3); }
-        50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 255, 0.6); }
+
+      @keyframes popInOut {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+        100% { transform: scale(1); }
       }
+
+      .explore-button-animate {
+        opacity: 0;
+        animation: slideUpIn 1.5s ease-out forwards, popInOut 1.8s infinite ease-in-out;
+        animation-delay: 3s, 4.5s;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .explore-button-animate:hover {
+        filter: brightness(1.5);
+        transform: scale(1.08);
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+      }
+
+      @keyframes slideUpIn {
+        0% { opacity: 0; transform: translateY(100%); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+
       canvas.neural-canvas {
         position: absolute;
         inset: 0;
@@ -65,44 +97,69 @@ const LandingPage = () => {
 
       .op-logo-animated {
         opacity: 0;
-        transform: scale(0.85);
-        filter: blur(8px);
-        animation: revealLogo 4.5s ease-in-out forwards, glowPulse 4.5s ease-in-out forwards;
+        animation: spiralReveal 4s ease-in-out forwards;
       }
 
-      @keyframes revealLogo {
+      @keyframes spiralReveal {
         0% {
           opacity: 0;
-          transform: scale(0.85);
-          filter: blur(8px);
-          clip-path: circle(0% at 50% 100%);
+          transform: scale(0.4) rotate(0deg);
+          clip-path: circle(0% at 50% 50%);
         }
         50% {
-          clip-path: circle(80% at 50% 50%);
-          transform: scale(1.05);
-          filter: blur(4px);
+          opacity: 0.5;
+          transform: scale(1.05) rotate(540deg);
+          clip-path: circle(60% at 50% 50%);
         }
         100% {
           opacity: 1;
-          transform: scale(1);
-          filter: blur(0);
+          transform: scale(1) rotate(720deg);
           clip-path: circle(150% at 50% 50%);
         }
       }
 
-      @keyframes glowPulse {
-        0% { box-shadow: 0 0 0px rgba(255, 255, 255, 0.2); }
-        50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
-        100% { box-shadow: 0 0 0px rgba(255, 255, 255, 0.2); }
-      }
-
       .fade-in-image {
         opacity: 0;
-        animation: fadeInImg 2s ease-in-out forwards;
+        animation: fadeInImg 4s ease-in-out forwards;
       }
+
       @keyframes fadeInImg {
         0% { opacity: 0; transform: scale(0.8); }
         100% { opacity: 1; transform: scale(1); }
+      }
+
+      /* Entry keyframe for cube */
+      @keyframes cubeIn {
+        0% {
+          transform: translateY(-500px) rotateX(720deg) rotateY(720deg) scale(0.3);
+          opacity: 0;
+        }
+        60% {
+          transform: translateY(20px) rotateX(20deg) rotateY(20deg) scale(1.05);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1);
+        }
+      }
+
+      .animate-cube-in {
+        animation: cubeIn 1.2s ease-out forwards;
+      }
+
+      /* Persistent rotation */
+      .rotate-cube {
+        animation: rotateCube 14s linear infinite;
+        transform-style: preserve-3d;
+      }
+
+      @keyframes rotateCube {
+        0% {
+          transform: rotateX(0deg) rotateY(0deg);
+        }
+        100% {
+          transform: rotateX(360deg) rotateY(360deg);
+        }
       }
     `;
     document.head.appendChild(style);
@@ -118,7 +175,6 @@ const LandingPage = () => {
     canvas.height = height;
 
     const NODE_RADIUS = 1.5;
-
     const nodes = Array.from({ length: 300 }).map(() => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -231,7 +287,7 @@ const LandingPage = () => {
   const renderAnimatedTitle = (text: string) => (
     <h1
       ref={titleRef}
-      className="animated-title text-6xl md:text-7xl font-bold mb-2 text-white"
+      className="animated-title text-[#FFD700] text-6xl md:text-7xl font-bold mb-2"
     >
       {text.split("").map((char, idx) => (
         <span key={idx} style={{ ["--i" as any]: idx + 1 }}>
@@ -247,14 +303,12 @@ const LandingPage = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-purple-800/10 z-0" />
       <div className="flex flex-col items-center justify-center h-screen px-4 z-10 relative">
         <Cube />
-
         <div className="relative flex items-center justify-center w-[350px] h-[350px] mb-8 pt-14">
           <img
             src="src/icons/10 GLOW BY NINJA 3.0.png"
             alt="Glow"
             className="absolute fade-in-image w-[350px] h-[350px] object-contain z-0"
           />
-
           <img
             src="src/icons/OP Circle.png"
             alt="OP Logo"
@@ -273,7 +327,7 @@ const LandingPage = () => {
 
         <div className="pb-12">
           <Button
-            className="pulse-button neon-button group text-lg py-6 px-8 transition-all duration-300 shadow-neon-glow hover:scale-105 bg-gradient-to-r from-purple-600/50 to-pink-600/50"
+            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-yellow-300 bg-gradient-to-r from-purple-700 via-purple-900 to-black text-white pulse-button"
             onClick={() => navigate("/main")}
           >
             Explore
