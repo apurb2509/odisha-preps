@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Cube = () => (
   <div className="perspective-1000 mx-auto pt-16 mb-6">
-    <div className="cube animate-rotate-cube">
+    <div className="cube animate-rotate-cube" style={{ animationDuration: "4.5s" }}>
       <div className="cube-face front">OP</div>
       <div className="cube-face back">Success</div>
       <div className="cube-face left">Learn</div>
@@ -43,13 +43,13 @@ const LandingPage = () => {
       }
       .animate-fade-in-delayed {
         opacity: 0;
-        animation: fadeIn 1.5s 1.5s forwards;
+        animation: fadeIn 4.5s forwards;
       }
       @keyframes fadeIn {
         to { opacity: 1; }
       }
       .pulse-button {
-        animation: pulse 2s infinite;
+        animation: pulse 4.5s infinite;
       }
       @keyframes pulse {
         0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 0, 255, 0.3); }
@@ -62,6 +62,40 @@ const LandingPage = () => {
         background: black;
         opacity: 0.3;
       }
+
+      .op-logo-animated {
+        opacity: 0;
+        transform: scale(0.85);
+        filter: blur(8px);
+        animation: revealLogo 4.5s ease-in-out forwards, glowPulse 4.5s ease-in-out forwards;
+      }
+
+      @keyframes revealLogo {
+        0% {
+          opacity: 0;
+          transform: scale(0.85);
+          filter: blur(8px);
+          clip-path: circle(0% at 50% 100%);
+        }
+        50% {
+          clip-path: circle(80% at 50% 50%);
+          transform: scale(1.05);
+          filter: blur(4px);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+          filter: blur(0);
+          clip-path: circle(150% at 50% 50%);
+        }
+      }
+
+      @keyframes glowPulse {
+        0% { box-shadow: 0 0 0px rgba(255, 255, 255, 0.2); }
+        50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+        100% { box-shadow: 0 0 0px rgba(255, 255, 255, 0.2); }
+      }
+
       .fade-in-image {
         opacity: 0;
         animation: fadeInImg 2s ease-in-out forwards;
@@ -140,9 +174,7 @@ const LandingPage = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < CONNECTION_THRESHOLD) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(255,255,255,${
-              1 - dist / CONNECTION_THRESHOLD
-            })`;
+            ctx.strokeStyle = `rgba(255,255,255,${1 - dist / CONNECTION_THRESHOLD})`;
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
             ctx.stroke();
@@ -216,17 +248,17 @@ const LandingPage = () => {
       <div className="flex flex-col items-center justify-center h-screen px-4 z-10 relative">
         <Cube />
 
-        {/* OP Logo + Glow with adjusted size */}
         <div className="relative flex items-center justify-center w-[350px] h-[350px] mb-8 pt-14">
           <img
             src="src/icons/10 GLOW BY NINJA 3.0.png"
             alt="Glow"
             className="absolute fade-in-image w-[350px] h-[350px] object-contain z-0"
           />
+
           <img
             src="src/icons/OP Circle.png"
             alt="OP Logo"
-            className="fade-in-image relative w-[195px] h-[195px] object-contain z-10"
+            className="op-logo-animated relative w-[195px] h-[195px] object-contain z-10"
           />
         </div>
 
