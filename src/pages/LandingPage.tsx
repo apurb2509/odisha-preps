@@ -40,53 +40,44 @@ const LandingPage = () => {
       .animated-title span:nth-child(n) {
         animation-delay: calc(0.12s * var(--i));
       }
-
       @keyframes fadeInLetter {
         0% { opacity: 0; transform: translateY(-10px); }
         100% { opacity: 1; transform: translateY(0); }
       }
-
       .animate-tagline-match-title {
         opacity: 0;
         transform: translateY(10px);
         animation: taglineFadeIn 4.8s ease-out forwards;
         animation-delay: 0.2s;
       }
-
       @keyframes taglineFadeIn {
         0% { opacity: 0; transform: translateY(10px); }
         100% { opacity: 1; transform: translateY(0); }
       }
-
       .pulse-button {
         animation: popInOut 1.8s infinite ease-in-out;
       }
-
       @keyframes popInOut {
         0% { transform: scale(1); }
         50% { transform: scale(1.15); }
         100% { transform: scale(1); }
       }
-
       .explore-button-animate {
         opacity: 0;
         animation: slideUpIn 1.5s ease-out forwards, popInOut 1.8s infinite ease-in-out;
         animation-delay: 3s, 4.5s;
         transition: all 0.3s ease-in-out;
       }
-
       .explore-button-animate:hover {
         filter: brightness(1.5);
         transform: scale(1.08);
         background-color: rgba(255, 255, 255, 0.2);
         color: #ffffff;
       }
-
       @keyframes slideUpIn {
         0% { opacity: 0; transform: translateY(100%); }
         100% { opacity: 1; transform: translateY(0); }
       }
-
       canvas.neural-canvas {
         position: absolute;
         inset: 0;
@@ -94,12 +85,10 @@ const LandingPage = () => {
         background: black;
         opacity: 0.3;
       }
-
       .op-logo-animated {
         opacity: 0;
         animation: spiralReveal 4s ease-in-out forwards;
       }
-
       @keyframes spiralReveal {
         0% {
           opacity: 0;
@@ -117,49 +106,45 @@ const LandingPage = () => {
           clip-path: circle(150% at 50% 50%);
         }
       }
-
       .fade-in-image {
         opacity: 0;
         animation: fadeInImg 4s ease-in-out forwards;
       }
-
       @keyframes fadeInImg {
         0% { opacity: 0; transform: scale(0.8); }
         100% { opacity: 1; transform: scale(1); }
       }
-
       /* Entry keyframe for cube */
       @keyframes cubeIn {
-        0% {
-          transform: translateY(-500px) rotateX(720deg) rotateY(720deg) scale(0.3);
-          opacity: 0;
-        }
-        60% {
-          transform: translateY(20px) rotateX(20deg) rotateY(20deg) scale(1.05);
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1);
-        }
+        0% { transform: translateY(-500px) rotateX(720deg) rotateY(720deg) scale(0.3); opacity: 0; }
+        60% { transform: translateY(20px) rotateX(20deg) rotateY(20deg) scale(1.05); opacity: 1; }
+        100% { transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1); }
       }
-
       .animate-cube-in {
         animation: cubeIn 1.2s ease-out forwards;
       }
-
       /* Persistent rotation */
       .rotate-cube {
         animation: rotateCube 14s linear infinite;
         transform-style: preserve-3d;
       }
-
       @keyframes rotateCube {
-        0% {
-          transform: rotateX(0deg) rotateY(0deg);
-        }
-        100% {
-          transform: rotateX(360deg) rotateY(360deg);
-        }
+        0% { transform: rotateX(0deg) rotateY(0deg); }
+        100% { transform: rotateX(360deg) rotateY(360deg); }
+      }
+      /* Transparent cube faces with light purple shade */
+      .cube-face {
+        background-color: rgba(251, 182, 194, 0.25); /* Lightest purple with transparency */
+        color: white;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* Hover effect on OP Logo */
+      .op-logo-animated:hover {
+        transform: scale(1.2);
+        transition: transform 0.3s ease-in-out;
       }
     `;
     document.head.appendChild(style);
@@ -184,7 +169,6 @@ const LandingPage = () => {
       originalX: 0,
       originalY: 0,
     }));
-
     nodes.forEach((n) => {
       n.originalX = n.x;
       n.originalY = n.y;
@@ -193,7 +177,6 @@ const LandingPage = () => {
     let mouse = { x: -9999, y: -9999 };
     let lastMoveTime = Date.now();
     let mouseIsMoving = false;
-
     const MOUSE_RADIUS = 100;
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -221,8 +204,7 @@ const LandingPage = () => {
       checkIdle();
       ctx.clearRect(0, 0, width, height);
 
-      const CONNECTION_THRESHOLD = 150;
-
+      const CONNECTION_THRESHOLD = 120;
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
@@ -248,32 +230,29 @@ const LandingPage = () => {
         ctx.shadowBlur = 0;
       }
 
+      const updateNodes = () => {
+        for (const node of nodes) {
+          const dx = node.x - mouse.x;
+          const dy = node.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (mouseIsMoving && dist < MOUSE_RADIUS) {
+            const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+            const angle = Math.atan2(dy, dx);
+            node.vx += Math.cos(angle) * force * 0.6;
+            node.vy += Math.sin(angle) * force * 0.6;
+          } else {
+            node.vx += (node.originalX - node.x) * 0.005;
+            node.vy += (node.originalY - node.y) * 0.005;
+          }
+          node.x += node.vx;
+          node.y += node.vy;
+          node.vx *= 0.9;
+          node.vy *= 0.9;
+        }
+      };
+
       updateNodes();
       requestAnimationFrame(draw);
-    };
-
-    const updateNodes = () => {
-      for (const node of nodes) {
-        const dx = node.x - mouse.x;
-        const dy = node.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (mouseIsMoving && dist < MOUSE_RADIUS) {
-          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
-          const angle = Math.atan2(dy, dx);
-          node.vx += Math.cos(angle) * force * 0.6;
-          node.vy += Math.sin(angle) * force * 0.6;
-        } else {
-          node.vx += (node.originalX - node.x) * 0.005;
-          node.vy += (node.originalY - node.y) * 0.005;
-        }
-
-        node.x += node.vx;
-        node.y += node.vy;
-
-        node.vx *= 0.9;
-        node.vy *= 0.9;
-      }
     };
 
     draw();
@@ -285,22 +264,49 @@ const LandingPage = () => {
   }, []);
 
   const renderAnimatedTitle = (text: string) => (
-    <h1
-      ref={titleRef}
-      className="animated-title text-[#FFD700] text-6xl md:text-7xl font-bold mb-2"
-    >
-      {text.split("").map((char, idx) => (
-        <span key={idx} style={{ ["--i" as any]: idx + 1 }}>
-          {char === " " ? "\u00A0" : char}
-        </span>
-      ))}
-    </h1>
+    <>
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap ');
+          .animated-title {
+            font-family: 'Bebas Neue', cursive;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            text-shadow: 
+              1px 1px rgba(255, 215, 0, 0.8),
+              2px 2px rgba(0, 0, 0, 0.5),
+              4px 4px rgba(0, 0, 0, 0.3);
+            font-size: 5rem !important;
+          }
+        `}
+      </style>
+      <h1
+        ref={titleRef}
+        className="animated-title text-[#FFD700] text-6xl md:text-7xl font-bold mb-2"
+      >
+        {text.split("").map((char, idx) => (
+          <span key={idx} style={{ ["--i" as any]: idx + 1 }}>
+            {char === " " ? "\u00A0" : char}
+          </span>
+        ))}
+      </h1>
+    </>
   );
 
   return (
-    <div className="bg-black min-h-screen overflow-hidden relative">
+    <div
+      className="bg-black min-h-screen overflow-hidden relative landing-page-background"
+      style={{
+        backgroundImage: "url('src/icons/coverpic7.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        opacity: 0.55,
+      }}
+    >
       <canvas ref={canvasRef} className="neural-canvas" />
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-purple-800/10 z-0" />
       <div className="flex flex-col items-center justify-center h-screen px-4 z-10 relative">
         <Cube />
         <div className="relative flex items-center justify-center w-[350px] h-[350px] mb-8 pt-14">
@@ -315,19 +321,16 @@ const LandingPage = () => {
             className="op-logo-animated relative w-[195px] h-[195px] object-contain z-10"
           />
         </div>
-
         {renderAnimatedTitle("Odisha Preps")}
-
         <p
           ref={taglineRef}
           className="text-xl md:text-2xl text-light-gray mb-8"
         >
           Learn. Prepare. Succeed with Odisha Preps.
         </p>
-
         <div className="pb-12">
           <Button
-            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-yellow-300 bg-gradient-to-r from-purple-700 via-purple-900 to-black text-white pulse-button"
+            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white-300 bg-gradient-to-r from-pink-800 via-pink-900 to-black text-white pulse-button"
             onClick={() => navigate("/main")}
           >
             Explore
