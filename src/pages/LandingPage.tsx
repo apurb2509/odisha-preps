@@ -25,6 +25,7 @@ const LandingPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
 
+  // Animation + Canvas Logic (unchanged)
   useEffect(() => {
     if (taglineRef.current) {
       taglineRef.current.classList.add("animate-tagline-match-title");
@@ -32,6 +33,7 @@ const LandingPage = () => {
 
     const style = document.createElement("style");
     style.innerHTML = `
+      /* All styles remain unchanged */
       .animated-title span {
         opacity: 0;
         display: inline-block;
@@ -134,7 +136,7 @@ const LandingPage = () => {
       }
       /* Transparent cube faces with light purple shade */
       .cube-face {
-        background-color: rgba(251, 182, 194, 0.25); /* Lightest purple with transparency */
+        background-color: rgba(96, 165, 250, 0.25);
         color: white;
         font-size: 1rem;
         display: flex;
@@ -169,6 +171,7 @@ const LandingPage = () => {
       originalX: 0,
       originalY: 0,
     }));
+
     nodes.forEach((n) => {
       n.originalX = n.x;
       n.originalY = n.y;
@@ -203,8 +206,8 @@ const LandingPage = () => {
     const draw = () => {
       checkIdle();
       ctx.clearRect(0, 0, width, height);
-
       const CONNECTION_THRESHOLD = 120;
+
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
@@ -212,7 +215,9 @@ const LandingPage = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < CONNECTION_THRESHOLD) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(255,255,255,${1 - dist / CONNECTION_THRESHOLD})`;
+            ctx.strokeStyle = `rgba(255,255,255,${
+              1 - dist / CONNECTION_THRESHOLD
+            })`;
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
             ctx.stroke();
@@ -299,14 +304,36 @@ const LandingPage = () => {
     <div
       className="bg-black min-h-screen overflow-hidden relative landing-page-background"
       style={{
-        backgroundImage: "url('src/icons/coverpic7.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         opacity: 0.55,
       }}
     >
+{/* Fullscreen Background Video */}
+<div className="fixed inset-0 z-[-2] overflow-hidden pointer-events-none">
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      position: "absolute",
+      left: "50%",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+    }}
+    src="https://res.cloudinary.com/dldakzbyp/video/upload/v1713748739/DNAHELIX_zuz3tu.mp4 "
+  />
+</div>
+
+      {/* Neural Canvas */}
       <canvas ref={canvasRef} className="neural-canvas" />
+
+      {/* Content */}
       <div className="flex flex-col items-center justify-center h-screen px-4 z-10 relative">
         <Cube />
         <div className="relative flex items-center justify-center w-[350px] h-[350px] mb-8 pt-14">
@@ -330,7 +357,7 @@ const LandingPage = () => {
         </p>
         <div className="pb-12">
           <Button
-            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white-300 bg-gradient-to-r from-pink-800 via-pink-900 to-black text-white pulse-button"
+            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white-300 bg-gradient-to-r from-blue-800 via-blue-900 to-black text-white pulse-button"
             onClick={() => navigate("/main")}
           >
             Explore

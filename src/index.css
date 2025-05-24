@@ -1,8 +1,22 @@
+/* index.css */
 
+/* Full-Screen Reset */
+html,
+body,
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Tailwind Base Styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Variables for Theme */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -42,6 +56,7 @@
     overflow-x: hidden;
   }
 
+  /* Scrollbar Customization */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -61,13 +76,14 @@
   }
 }
 
+/* Component Classes */
 @layer components {
   .neon-card {
     @apply relative bg-dark-deeper border border-neon-purple/30 rounded-lg p-6 transition-all duration-300 overflow-hidden;
   }
 
   .neon-card:before {
-    content: '';
+    content: "";
     @apply absolute inset-0 bg-neon-gradient opacity-0 transition-opacity duration-300;
   }
 
@@ -92,7 +108,7 @@
   }
 
   .nav-link:after {
-    content: '';
+    content: "";
     @apply absolute left-0 bottom-[-5px] w-0 h-[2px] bg-neon-purple transition-all duration-300;
   }
 
@@ -101,8 +117,10 @@
   }
 }
 
+/* Utility Classes */
 .text-glow {
-  text-shadow: 0 0 10px rgba(168, 85, 247, 0.7), 0 0 20px rgba(168, 85, 247, 0.4);
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.7),
+    0 0 20px rgba(168, 85, 247, 0.4);
 }
 
 .cube {
@@ -152,15 +170,21 @@
 }
 
 .geometric-mesh {
-  background-image: 
-    linear-gradient(rgba(168, 85, 247, 0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(168, 85, 247, 0.2) 1px, transparent 1px),
+  background-image: linear-gradient(
+      rgba(168, 85, 247, 0.2) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(168, 85, 247, 0.2) 1px,
+      transparent 1px
+    ),
     radial-gradient(circle, rgba(168, 85, 247, 0.1) 2px, transparent 2px);
   background-size: 50px 50px, 50px 50px, 250px 250px;
   background-position: center;
 }
 
-/* Animation for content fading in as user scrolls */
+/* Fade Slide Up Animation */
 @keyframes fadeSlideUp {
   from {
     opacity: 0;

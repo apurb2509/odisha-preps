@@ -1,10 +1,15 @@
+/* App.css */
+
+/* Remove or adjust #root styles to avoid constraining full-screen layout */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
   text-align: center;
 }
 
+/* Keep the rest of your styles below unchanged */
 .logo {
   height: 6em;
   padding: 1.5em;
