@@ -162,7 +162,7 @@ const LandingPage = () => {
     canvas.height = height;
 
     const NODE_RADIUS = 1.5;
-    const nodes = Array.from({ length: 300 }).map(() => ({
+    const nodes = Array.from({ length: 175 }).map(() => ({
       x: Math.random() * width,
       y: Math.random() * height,
       vx: 0,
