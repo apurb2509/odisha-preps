@@ -136,7 +136,7 @@ const LandingPage = () => {
       }
       /* Transparent cube faces with light purple shade */
       .cube-face {
-        background-color: rgba(96, 165, 250, 0.25);
+        background-color: rgba(96, 200, 250, 0.25);
         color: white;
         font-size: 1rem;
         display: flex;
@@ -206,7 +206,7 @@ const LandingPage = () => {
     const draw = () => {
       checkIdle();
       ctx.clearRect(0, 0, width, height);
-      const CONNECTION_THRESHOLD = 120;
+      const CONNECTION_THRESHOLD = 100;
 
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
@@ -357,7 +357,7 @@ const LandingPage = () => {
         </p>
         <div className="pb-12">
           <Button
-            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white-300 bg-gradient-to-r from-blue-800 via-blue-900 to-black text-white pulse-button"
+            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white-300 bg-gradient-to-r from-blue-700 via-blue-900 to-black text-white pulse-button"
             onClick={() => navigate("/main")}
           >
             Explore
