@@ -357,7 +357,7 @@ const LandingPage = () => {
         </p>
         <div className="pb-12">
           <Button
-            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white-300 bg-gradient-to-r from-blue-700 via-blue-900 to-black text-white pulse-button"
+            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white-300 bg-gradient-to-r from-cyan-700 via-cyan-900 to-black text-white pulse-button"
             onClick={() => navigate("/main")}
           >
             Explore
