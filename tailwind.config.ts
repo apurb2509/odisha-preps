@@ -131,7 +131,20 @@ export default {
 			boxShadow: {
 				'neon-glow': '0 0 10px rgba(168, 85, 247, 0.7), 0 0 20px rgba(168, 85, 247, 0.4)',
 				'neon-blue-glow': '0 0 10px rgba(30, 174, 219, 0.7), 0 0 20px rgba(30, 174, 219, 0.4)'
-			}
+			},
+			theme: {
+				extend: {
+				  animation: {
+					fadein: 'fadein 1s ease-out',
+				  },
+				  keyframes: {
+					fadein: {
+					  '0%': { opacity: '0' },
+					  '100%': { opacity: '1' },
+					},
+				  },
+				},
+			  },
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

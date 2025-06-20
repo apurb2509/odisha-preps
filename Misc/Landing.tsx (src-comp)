@@ -12,7 +12,7 @@ const Cube = () => {
         <div className="cube-face left">Learn</div>
         <div className="cube-face right">Prepare</div>
         <div className="cube-face top">Study</div>
-        <div className="cube-face bottom">Excel</div>
+        <div className="cube-face bottom">Apurb</div>
       </div>
     </div>
   );

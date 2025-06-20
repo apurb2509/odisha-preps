@@ -3,6 +3,14 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+// Import Social Media Icons
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+} from "react-icons/fa";
+
 const Cube = () => (
   <div className="perspective-1000 mx-auto pt-16 mb-6">
     <div
@@ -25,7 +33,6 @@ const LandingPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
 
-  // Animation + Canvas Logic (unchanged)
   useEffect(() => {
     if (taglineRef.current) {
       taglineRef.current.classList.add("animate-tagline-match-title");
@@ -33,7 +40,7 @@ const LandingPage = () => {
 
     const style = document.createElement("style");
     style.innerHTML = `
-      /* All styles remain unchanged */
+      /* Styles remain unchanged from original */
       .animated-title span {
         opacity: 0;
         display: inline-block;
@@ -84,8 +91,8 @@ const LandingPage = () => {
         position: absolute;
         inset: 0;
         z-index: 0;
-        background: black;
-        opacity: 0.3;
+        background: linear-gradient(to bottom, #000000, #8e2de2);
+        opacity: 0.7;
       }
       .op-logo-animated {
         opacity: 0;
@@ -116,7 +123,6 @@ const LandingPage = () => {
         0% { opacity: 0; transform: scale(0.8); }
         100% { opacity: 1; transform: scale(1); }
       }
-      /* Entry keyframe for cube */
       @keyframes cubeIn {
         0% { transform: translateY(-500px) rotateX(720deg) rotateY(720deg) scale(0.3); opacity: 0; }
         60% { transform: translateY(20px) rotateX(20deg) rotateY(20deg) scale(1.05); opacity: 1; }
@@ -125,7 +131,6 @@ const LandingPage = () => {
       .animate-cube-in {
         animation: cubeIn 1.2s ease-out forwards;
       }
-      /* Persistent rotation */
       .rotate-cube {
         animation: rotateCube 14s linear infinite;
         transform-style: preserve-3d;
@@ -134,16 +139,14 @@ const LandingPage = () => {
         0% { transform: rotateX(0deg) rotateY(0deg); }
         100% { transform: rotateX(360deg) rotateY(360deg); }
       }
-      /* Transparent cube faces with light purple shade */
       .cube-face {
-        background-color: rgba(96, 200, 250, 0.25);
+        background-color: rgba(128, 0, 255, 0.3);
         color: white;
         font-size: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      /* Hover effect on OP Logo */
       .op-logo-animated:hover {
         transform: scale(1.2);
         transition: transform 0.3s ease-in-out;
@@ -151,6 +154,7 @@ const LandingPage = () => {
     `;
     document.head.appendChild(style);
 
+    // Neural Network Canvas Logic (unchanged)
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -180,6 +184,7 @@ const LandingPage = () => {
     let mouse = { x: -9999, y: -9999 };
     let lastMoveTime = Date.now();
     let mouseIsMoving = false;
+
     const MOUSE_RADIUS = 100;
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -206,6 +211,7 @@ const LandingPage = () => {
     const draw = () => {
       checkIdle();
       ctx.clearRect(0, 0, width, height);
+
       const CONNECTION_THRESHOLD = 100;
 
       for (let i = 0; i < nodes.length; i++) {
@@ -215,7 +221,7 @@ const LandingPage = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < CONNECTION_THRESHOLD) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(255,255,255,${
+            ctx.strokeStyle = `rgba(255, 255, 255, ${
               1 - dist / CONNECTION_THRESHOLD
             })`;
             ctx.moveTo(nodes[i].x, nodes[i].y);
@@ -272,14 +278,14 @@ const LandingPage = () => {
     <>
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap ');
+          @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
           .animated-title {
             font-family: 'Bebas Neue', cursive;
             font-weight: 400;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: #FFFFFF;
-            text-shadow: 
+            color: #FFFFFF; 
+            text-shadow:
               1px 1px rgba(255, 215, 0, 0.8),
               2px 2px rgba(0, 0, 0, 0.5),
               4px 4px rgba(0, 0, 0, 0.3);
@@ -302,41 +308,32 @@ const LandingPage = () => {
 
   return (
     <div
-      className="bg-black min-h-screen overflow-hidden relative landing-page-background"
+      className="bg-black min-h-screen overflow-hidden relative text-white"
       style={{
+        backgroundImage: "linear-gradient(to bottom, #000000, #8e2de2)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        opacity: 0.55,
       }}
     >
-{/* Fullscreen Background Video */}
-<div className="fixed inset-0 z-[-2] overflow-hidden pointer-events-none">
-  <video
-    autoPlay
-    loop
-    muted
-    playsInline
-    style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      position: "absolute",
-      left: "50%",
-      top: "50%",
-      transform: "translate(-50%, -50%)",
-    }}
-    src="https://res.cloudinary.com/dldakzbyp/video/upload/v1713748739/DNAHELIX_zuz3tu.mp4 "
-  />
-</div>
-
       {/* Neural Canvas */}
       <canvas ref={canvasRef} className="neural-canvas" />
 
-      {/* Content */}
-      <div className="flex flex-col items-center justify-center h-screen px-4 z-10 relative">
+      {/* Header with Logo */}
+      <header className="absolute top-6 left-6 z-20">
+        <a href="/">
+          <img
+            src="src/icons/OP Circle.png"
+            alt="Odisha Preps Logo"
+            className="w-12 h-12 object-contain cursor-pointer"
+          />
+        </a>
+      </header>
+
+      {/* Hero Section */}
+      <section className="flex flex-col items-center justify-center h-screen px-4 z-10 relative">
         <Cube />
-        <div className="relative flex items-center justify-center w-[350px] h-[350px] mb-8 pt-14">
+        <div className="relative flex items-center justify-center w-[350px] h-[350px] mb-8 pt-14 mx-auto">
           <img
             src="src/icons/10 GLOW BY NINJA 3.0.png"
             alt="Glow"
@@ -348,23 +345,114 @@ const LandingPage = () => {
             className="op-logo-animated relative w-[195px] h-[195px] object-contain z-10"
           />
         </div>
-        {renderAnimatedTitle("Odisha Preps")}
-        <p
-          ref={taglineRef}
-          className="text-xl md:text-2xl text-light-gray mb-8"
-        >
-          Learn. Prepare. Succeed with Odisha Preps.
-        </p>
-        <div className="pb-12">
+        <div className="mt-[-60px] text-center mx-auto max-w-xl">
+          {/* Title */}
+          {renderAnimatedTitle("Odisha Preps")}
+
+          {/* Tagline with center alignment */}
+          <p
+            ref={taglineRef}
+            className="ml-4 text-xl md:text-2xl text-purple-300 mb-8 text-center inline-block w-full"
+          >
+            Learn. Prepare. Succeed with Odisha Preps.
+          </p>
+
+          {/* Button with center alignment */}
           <Button
-            className="explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white-300 bg-gradient-to-r from-cyan-700 via-cyan-900 to-black text-white pulse-button"
+            className="ml-36 explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white bg-gradient-to-r from-purple-600 via-purple-800 to-black text-white pulse-button mx-auto"
             onClick={() => navigate("/main")}
           >
             Explore
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
-      </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black text-gray-400 py-8 px-6 border-t border-purple-800">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Company Info */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Odisha Preps</h3>
+            <p className="mb-2">
+              Empowering students through quality education.
+            </p>
+            <p>Ⓒ 2025 Odisha Preps - All rights reserved.</p>
+          </div>
+          {/* Navigation */}
+          <div className="ml-12">
+            <h3 className="text-lg font-semibold mb-4">Pages</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="/about" className="hover:text-purple-300">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="/contact" className="hover:text-purple-300">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <a href="/privacy-policy" className="hover:text-purple-300">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="/disclaimer" className="hover:text-purple-300">
+                  Disclaimer
+                </a>
+              </li>
+            </ul>
+          </div>
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Contact</h3>
+            <p>📞 +91-XXXXXXX</p>
+            <p>✉️ contact@odishapreps.com</p>
+            <p>📍 Bhubaneswar, Odisha, India</p>
+            <p>🕒 Mon-Fri: 9AM - 6PM</p>
+          </div>
+          {/* Social Media */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-purple-300"
+              >
+                <FaFacebookF className="w-6 h-6" />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-purple-300"
+              >
+                <FaTwitter className="w-6 h-6" />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-purple-300"
+              >
+                <FaInstagram className="w-6 h-6" />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-purple-300"
+              >
+                <FaLinkedinIn className="w-6 h-6" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
