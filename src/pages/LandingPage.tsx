@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Instagram, Youtube, Send } from "lucide-react";
 
 // Import Social Media Icons
 import {
@@ -360,7 +362,9 @@ const LandingPage = () => {
           {/* Button with center alignment */}
           <Button
             className="ml-36 explore-button-animate group text-lg py-6 px-8 transition-all duration-300 border border-white bg-gradient-to-r from-purple-600 via-purple-800 to-black text-white pulse-button mx-auto"
-            onClick={() => navigate("/main")}
+            onClick={() => {
+              window.location.href = "https://odishapreps.akamai.net.in/";
+            }}
           >
             Explore
             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -368,7 +372,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-black text-gray-400 py-8 px-6 border-t border-purple-800">
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -379,75 +382,75 @@ const LandingPage = () => {
             </p>
             <p>Ⓒ 2025 Odisha Preps - All rights reserved.</p>
           </div>
+
           {/* Navigation */}
           <div className="ml-12">
             <h3 className="text-lg font-semibold mb-4">Pages</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/about" className="hover:text-purple-300">
+                <Link to="/about" className="hover:text-purple-300">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:text-purple-300">
+                <Link to="/contact" className="hover:text-purple-300">
                   Contact Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/privacy-policy" className="hover:text-purple-300">
+                <Link to="/privacy-policy" className="hover:text-purple-300">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/disclaimer" className="hover:text-purple-300">
+                <Link to="/disclaimer" className="hover:text-purple-300">
                   Disclaimer
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
+
           {/* Contact Info */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
-            <p>📞 +91-XXXXXXX</p>
-            <p>✉️ contact@odishapreps.com</p>
+            <p>📞 +91 63726-11728</p>
+            <p>✉️ Mail to updated soon. </p>
             <p>📍 Bhubaneswar, Odisha, India</p>
-            <p>🕒 Mon-Fri: 9AM - 6PM</p>
+            <p>🕒 Mon-Sat: 10AM - 7PM</p>
           </div>
+
           {/* Social Media */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
+              {/* Instagram */}
               <a
-                href="https://facebook.com"
+                href="https://www.instagram.com/odishapreps"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-purple-300"
               >
-                <FaFacebookF className="w-6 h-6" />
+                <Instagram className="w-6 h-6" />
               </a>
+
+              {/* YouTube */}
               <a
-                href="https://twitter.com"
+                href="https://youtube.com/@odishapreps"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-purple-300"
               >
-                <FaTwitter className="w-6 h-6" />
+                <Youtube className="w-6 h-6" />
               </a>
+
+              {/* Telegram */}
               <a
-                href="https://instagram.com"
+                href="https://t.me/odishapreps"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-purple-300"
               >
-                <FaInstagram className="w-6 h-6" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-purple-300"
-              >
-                <FaLinkedinIn className="w-6 h-6" />
+                <Send className="w-6 h-6" />
               </a>
             </div>
           </div>

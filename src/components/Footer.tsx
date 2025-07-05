@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { FileText, Video, Book, Send, Youtube, Facebook, Instagram } from 'lucide-react';
+import { Youtube, Send, Instagram } from "lucide-react";
+
 
 interface ResourceBoxProps {
   title: string;
@@ -27,11 +28,22 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { name: "Youtube", icon: <Youtube className="h-5 w-5" />, url: "#" },
-    { name: "Telegram", icon: <Send className="h-5 w-5" />, url: "#" },
-    { name: "Instagram", icon: <Instagram className="h-5 w-5" />, url: "#" },
-    { name: "Facebook", icon: <Facebook className="h-5 w-5" />, url: "#" },
-  ];
+    {
+      name: "Youtube",
+      icon: <Youtube className="h-5 w-5 text-red-500" />,
+      url: "https://youtube.com/@odishapreps",
+    },
+    {
+      name: "Telegram",
+      icon: <Send className="h-5 w-5 text-blue-400" />,
+      url: "https://t.me/odishapreps",
+    },
+    {
+      name: "Instagram",
+      icon: <Instagram className="h-5 w-5 text-pink-500" />,
+      url: "https://www.instagram.com/odishapreps",
+    },
+  ];  
 
   return (
     <footer className="pt-16 pb-8 px-4 border-t border-neon-purple/20 bg-transparent backdrop-blur-md">
