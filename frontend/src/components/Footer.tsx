@@ -11,7 +11,7 @@ interface ResourceBoxProps {
 const ResourceBox = ({ title, icon }: ResourceBoxProps) => {
   return (
     <div className="flex flex-col items-center p-4 border border-neon-purple/30 rounded-lg bg-transparent backdrop-blur-md hover:shadow-neon-glow hover:-translate-y-1 transition-all duration-300">
-      <div className="mb-4 text-neon-purple">{icon}</div>
+      <div className="mb-2 text-neon-purple">{icon}</div>
       <h3 className="font-medium text-white">{title}</h3>
     </div>
   );
