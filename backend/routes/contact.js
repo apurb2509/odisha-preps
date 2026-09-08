@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 
     if (error) throw error;
 
-    res.status(404).json({ success: true, message: 'Message stored successfully!' });
+    res.status(200).json({ success: true, message: 'Message stored successfully!' });
   } catch (err) {
     console.error('Supabase Insert Error:', err.message);
     res.status(500).json({ success: false, error: 'Server error' });
